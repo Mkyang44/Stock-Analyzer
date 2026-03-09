@@ -1,10 +1,10 @@
-#include "../include/Backtester.hpp"
-#include "../include/Indicators.hpp"
+#include "Backtester.h"
+#include "Indicators.h"
 #include <iostream>
 #include <iomanip>
 
 void runBacktest(const std::vector<Stock>& data, int shortPeriod, int longPeriod){
-    if (data.epty() || shortPeriod >= longPeriod){
+    if (data.empty() || shortPeriod >= longPeriod){
         std::cout << "Invalid data or periods.\n";
         return;
     }
@@ -25,7 +25,15 @@ void runBacktest(const std::vector<Stock>& data, int shortPeriod, int longPeriod
         bool buySignal = (prevShortMA <= prevLongMA) && (shortMA > longMA);
         bool sellSignal = (prevShortMA >= prevLongMA) && (shortMA < longMA);
 
-        if (buySignal && cash shares == 0){
+
+        std::cout << data[i].timestamp
+        << " | Short MA: " << shortMA
+        << " | Long MA: " << longMA
+        << " | Buy: " << buySignal
+        << " | Sell: " << sellSignal << "\n";
+
+
+        if (buySignal && shares == 0){
             shares = static_cast<int>(cash / data[i].close);
             if (shares > 0){
                 buyPrice = data[i].close;

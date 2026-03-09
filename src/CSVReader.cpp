@@ -2,44 +2,50 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <iostream>
 
 std::vector<Stock> readCSV(const std::string& filename) {
     std::vector<Stock> data;
     std::ifstream file(filename);
-    std::string line;
 
-    if (file.is_open()) {
-        std::getline(file, line); // Skip header line
-
-        while (std::getline(file, line)) {
-            std::stringstream ss(line);
-            std::string token;
-            Stock stock;
-
-            std::getline(ss, token, ',');
-            stock.timestamp = token;
-
-            std::getline(ss, token, ',');
-            stock.open = std::stod(token);
-
-            std::getline(ss, token, ',');
-            stock.high = std::stod(token);
-
-            std::getline(ss, token, ',');
-            stock.low = std::stod(token);
-
-            std::getline(ss, token, ',');
-            stock.close = std::stod(token);
-
-            std::getline(ss, token, ',');
-            stock.volume = std::stod(token);
-
-            data.push_back(stock);
-        }
-
-        file.close();
+    if (!file.is_open()) {
+        std::cerr << "Error: could not open file: " << filename << "\n";
+        return data;
     }
 
+    std::string line;
+    std::getline(file, line); // skip header
+
+    while (std::getline(file, line)) {
+        if (line.empty()) {
+            continue;
+        }
+
+        std::stringstream ss(line);
+        std::string item;
+        Stock stock{};
+
+        std::getline(ss, stock.timestamp, ',');
+
+        std::getline(ss, item, ',');
+        stock.open = std::stod(item);
+
+        std::getline(ss, item, ',');
+        stock.high = std::stod(item);
+
+        std::getline(ss, item, ',');
+        stock.low = std::stod(item);
+
+        std::getline(ss, item, ',');
+        stock.close = std::stod(item);
+
+        std::getline(ss, item, ',');
+        stock.volume = std::stoll(item);
+
+        data.push_back(stock);   
+
+    }
+
+ 
     return data;
-}
-    
+    }

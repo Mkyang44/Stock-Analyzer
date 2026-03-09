@@ -1,6 +1,6 @@
 #include <iostream>
-#include "../include/CSVReader.hpp"
-#include "../include/Backtester.hpp"
+#include "CSVReader.h"
+#include "Backtester.h"
 #include <vector>
 
 int main() {
@@ -12,6 +12,6 @@ int main() {
     }
 
     std::cout << "Data loaded successfully. Total records: " << data.size() << "\n";
-    runBacktest(data, 5, 20);
+    runBacktest(data, 3, 5);
     return 0;
 }

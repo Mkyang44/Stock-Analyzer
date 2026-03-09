@@ -1,4 +1,4 @@
-#include "Indicators.hpp"
+#include "Indicators.h"
 
 double movingAverage(const std::vector<Stock>& data, int period, int index) {
     if (index < period - 1) {
